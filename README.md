@@ -1,6 +1,5 @@
 <p align="center">
-  <img src="<img width="306" height="165" alt="image" src="https://github.com/user-attachments/assets/25bbcb4d-c81f-4ca1-b32f-54a0386bc690" />
-" alt="MyGenome Logo" width="300"/>
+
 </p>
 
 <h1 align="center">Variant Effect Prediction using AI</h1>
