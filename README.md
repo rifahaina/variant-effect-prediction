@@ -90,23 +90,21 @@ pip install pandas biopython jupyterlab scikit-learn matplotlib
 
 **2. Start JupyterLab**
 
-```bash
-jupyter lab
-```
+## Week 2 – Data Handling & Cleaning
 
-**3. Open Notebook**
-Launch `notebooks/01_literature_review.ipynb` and explore Markdown + code cells.
+**Focus:**
+- Variant annotation concepts: functional consequence and allele frequency
+- ClinVar classification and labeling (benign vs pathogenic)
 
----
+**Technical Progress:**
+- Parsed ClinVar VCF and variant_summary files
+- Cleaned and labeled dataset (clinvar_labeled.csv)
+- Prepared data for ML-ready inputs in upcoming weeks
 
-## 🚀 Next Steps (Week 2)
+**Soft Skills:**
+- Documented data curation decisions in `docs/week2_notes.md`
+- Version control with Git & GitHub
 
-* Learn **variant annotation** (Ensembl VEP) and functional consequence.
-* Clean **ClinVar data** and create binary labels for benign/pathogenic.
-* Integrate **gnomAD** allele frequency + dbSNP rsIDs.
-* Train and evaluate a baseline **Random Forest model**.
-
----
 
 ## 📞 Contact
 
