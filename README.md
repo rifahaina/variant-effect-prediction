@@ -15,98 +15,56 @@
 Develop and evaluate a machine learning model that predicts whether a genetic variant is **benign** or **pathogenic** using publicly available datasets such as **ClinVar**, **dbSNP**, and **gnomAD**.
 
 ---
-
-## 📚 Table of Contents
-
-* [Project Overview](#project-overview)
-* [Week 1 — Summary (Completed)](#week-1---summary-completed)
-* [Data & Files](#data--files)
-* [How to Run (Local)](#how-to-run-local)
-* [Next Steps (Week 2)](#next-steps-week-2)
-* [Contact](#contact)
+# 🧬 Variant Effect Prediction using AI  
+**Internship Project — 8 Weeks**  
+*Predicting whether genetic variants are benign or pathogenic using public genomic datasets.*
 
 ---
 
-## 🧠 Project Overview
+## 🎯 Project Overview  
+This project develops and evaluates a machine learning model to classify genetic variants (e.g., missense, nonsense, synonymous) as **benign** or **pathogenic**.  
+Public datasets such as **ClinVar**, **dbSNP**, and **gnomAD** were used for training and testing.
 
-This repository documents the end-to-end process of building an AI model for **variant effect prediction**.
-The project combines **bioinformatics** (variant interpretation, data curation) and **machine learning** (feature extraction, model training).
-Focus areas include:
+### **Goal**
+To build an interpretable and reproducible AI pipeline for variant effect prediction using biological and computational features.
 
-* Reproducible data handling
-* Feature engineering (functional consequence, allele frequency, conservation)
-* Baseline ML models (Random Forest / XGBoost)
-
----
-
-## 🧩 Week 1 — Summary (Completed)
-
-### 🎯 Objective
-
-Train a machine learning model (e.g., Random Forest, XGBoost, or Deep Learning) to classify genetic variants (e.g., missense, nonsense) as **benign** or **pathogenic** using public datasets.
-
-### 📘 What I Completed
-
-* Installed **Miniconda** and created a Python environment `varpred`.
-* Installed and launched **JupyterLab**.
-* Created the notebook `01_literature_review.ipynb`.
-* Wrote a comprehensive **literature review** covering:
-
-  * Central Dogma (DNA → RNA → Protein)
-  * Variant Types (SNVs, INDELs, synonymous, missense, nonsense, frameshift, in-frame)
-  * Structural Variants (CNVs, inversions, translocations)
-  * Variant Databases: **ClinVar**, **dbSNP**, **gnomAD**, **OMIM**
-* Initialized a local **Git repository** and structured project folders.
-
-### 📁 Deliverables
-
-* `notebooks/01_literature_review.ipynb` — Markdown & setup notes
-* `docs/chapter1_literature.md` — literature summary
-* `README.md` — this documentation file
+### **Outcome**
+- ✅ Trained baseline ML model (Random Forest & Logistic Regression)  
+- ✅ Processed dataset (`clinvar_ml_ready.csv`) with 20,000 labeled variants  
+- ✅ Prototype pipeline ready for advanced modeling and visualization dashboard  
 
 ---
 
-## 📂 Data & Files
+## 🧠 Methodology
 
-| Folder                           | Description                                                 |
-| -------------------------------- | ----------------------------------------------------------- |
-| `data/`                          | Raw downloads (not uploaded to GitHub; add to `.gitignore`) |
-| `notebooks/`                     | Jupyter notebooks (analysis + notes)                        |
-| `docs/`                          | Documentation files (literature, reports, methods)          |
-
-> ⚠️ **Note:** Keep large files (ClinVar, dbSNP, gnomAD) only in your local `data/` folder.
+| Stage | Description | Output |
+|--------|--------------|---------|
+| **Week 1 – Setup & Background** | Environment setup, bioinformatics fundamentals, dataset familiarization. | Jupyter notebooks initialized. |
+| **Week 2 – Data Cleaning** | Parsed ClinVar file, extracted 812k variants → 20k balanced subset (benign vs pathogenic). | `clinvar_subset_20000.csv` |
+| **Week 3 – Feature Engineering** | Extracted biological features: BLOSUM62 substitution scores, hydropathy differences, stop-codon flags, and allele frequencies. | `clinvar_features_stage2_full.csv` |
+| **Week 4 – Baseline ML** | Trained Random Forest & Logistic Regression on standardized data. Evaluated model metrics. | AUC ≈ 0.72 |
+| **Next Steps (Week 5–8)** | Add advanced models (XGBoost, LightGBM, Neural Nets), integrate external scores, and deploy Streamlit app. | Under development |
 
 ---
 
-## 💻 How to Run (Local)
+## ⚙️ Pipeline Overview
 
-**1. Create Environment**
+```text
+data/
+│
+├── raw/
+│   └── variant_summary.txt.gz          ← Original ClinVar data
+│
+├── processed/
+│   ├── clinvar_subset_20000.csv        ← Clean subset (benign/pathogenic)
+│   ├── clinvar_features_stage2_full.csv← Feature-engineered dataset
+│   └── clinvar_ml_ready.csv            ← Final ML-ready data
+│
+└── notebooks/
+    ├── week2_prepare_subset.ipynb
+    ├── week3_feature_engineering.ipynb
+    └── week4_ml_baseline.ipynb
 
-```bash
-conda create -n varpred python=3.10 -y
-conda activate varpred
-pip install pandas biopython jupyterlab scikit-learn matplotlib
-```
-
-**2. Start JupyterLab**
-
-## Week 2 — Data Handling & Cleaning (Completed ✅)
-
-**Objective:** Parse and clean ClinVar data, understand variant annotations, and prepare binary labels for modeling.
-
-**Highlights:**
-- Parsed ClinVar summary and VCF files.
-- Learned functional consequence & allele frequency concepts.
-- Cleaned dataset and labeled variants as benign (0) or pathogenic (1).
-- Documented curation decisions in Jupyter notebook.
-- Uploaded processed notebook and small dataset to GitHub.
-
-
-## 📞 Contact
-
-**Aina Rif’ah**
-Bioinformatics Intern
-📧 [aina.rifah13@gmail.com](mailto:aina.rifah13@gmail.com)
 
 ---
 
