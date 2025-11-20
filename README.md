@@ -1,75 +1,192 @@
-<p align="center">
+<h1 align="center">🧬 Variant Effect Prediction using AI</h1>
 
-</p>
-
-<h1 align="center">Variant Effect Prediction using AI</h1>
 <p align="center">
   <b>Aina Rif’ah — Bioinformatics Internship (Oct 2025 – Aug 2026)</b><br>
-  <i>In collaboration with MyGenome — Ethical Life Science</i>
+  <i>MyGenome — Ethical Life Science</i>
 </p>
 
 ---
 
-## 🧬 Project Goal
+## 🎯 Project Goal
 
-Develop and evaluate a machine learning model that predicts whether a genetic variant is **benign** or **pathogenic** using publicly available datasets such as **ClinVar**, **dbSNP**, and **gnomAD**.
+Build an end-to-end machine learning pipeline to predict whether a human genetic variant is **benign** or **pathogenic**, using engineered biological features derived from public datasets such as **ClinVar**.
 
----
-# 🧬 Variant Effect Prediction using AI  
-**Internship Project — 8 Weeks**  
-*Predicting whether genetic variants are benign or pathogenic using public genomic datasets.*
+This project integrates **bioinformatics preprocessing**, **feature engineering**, **machine learning**, **model explainability (SHAP)**, and a functional **Streamlit prototype** for variant interpretation.
 
 ---
 
-## 🎯 Project Overview  
-This project develops and evaluates a machine learning model to classify genetic variants (e.g., missense, nonsense, synonymous) as **benign** or **pathogenic**.  
-Public datasets such as **ClinVar**, **dbSNP**, and **gnomAD** were used for training and testing.
+## ✅ Key Outcomes
 
-### **Goal**
-To build an interpretable and reproducible AI pipeline for variant effect prediction using biological and computational features.
+### ✔️ Final Models (saved in `/results/`)
+- `logisticregression.pkl`
+- `randomforest.pkl`
+- `xgboost.pkl`
+- `scaler.pkl`
+- `imputer.pkl`
 
-### **Outcome**
-- ✅ Trained baseline ML model (Random Forest & Logistic Regression)  
-- ✅ Processed dataset (`clinvar_ml_ready.csv`) with 20,000 labeled variants  
-- ✅ Prototype pipeline ready for advanced modeling and visualization dashboard  
+### ✔️ Final Dataset  
+`clinvar_features_engineered.csv`  
+Contains ~800k ClinVar variants with engineered biological features:
+- BLOSUM62 substitution scores  
+- Hydropathy differences  
+- Stop-gain indicator  
+- Grantham distance  
+- Allele frequency & log(AF)  
+- Cleaned ClinVar labels  
+
+### ✔️ Evaluation Summary
+- **Random Forest AUC:** ~0.70  
+- **XGBoost AUC:** ~0.72  
+- **Logistic Regression AUC:** lower baseline  
+- Full evaluation includes:
+  - Confusion matrices  
+  - ROC curves  
+  - Precision–Recall curves  
+  - Feature importance  
+  - SHAP explanations  
+
+### ✔️ Streamlit App Prototype  
+Interactive interface allowing:
+- Input of genomic coordinates (chr, pos, REF, ALT)
+- Optional manual override of biological features
+- XGBoost prediction output with probability
+- SHAP explanations for Random Forest and Logistic Regression  
 
 ---
 
-## 🧠 Methodology
-
-| Stage | Description | Output |
-|--------|--------------|---------|
-| **Week 1 – Setup & Background** | Environment setup, bioinformatics fundamentals, dataset familiarization. | Jupyter notebooks initialized. |
-| **Week 2 – Data Cleaning** | Parsed ClinVar file, extracted 812k variants → 20k balanced subset (benign vs pathogenic). | `clinvar_subset_20000.csv` |
-| **Week 3 – Feature Engineering** | Extracted biological features: BLOSUM62 substitution scores, hydropathy differences, stop-codon flags, and allele frequencies. | `clinvar_features_stage2_full.csv` |
-| **Week 4 – Baseline ML** | Trained Random Forest & Logistic Regression on standardized data. Evaluated model metrics. | AUC ≈ 0.72 |
-| **Next Steps (Week 5–8)** | Add advanced models (XGBoost, LightGBM, Neural Nets), integrate external scores, and deploy Streamlit app. | Under development |
+# 🔬 Pipeline Overview
+Raw → Clean → Feature Engineering → ML Training → Evaluation → SHAP → Streamlit App
 
 ---
 
-## ⚙️ Pipeline Overview
+## 🧪 1. Data Acquisition
 
-```text
-data/
+Source: **ClinVar variant_summary.txt.gz**
+
+Processed with:
+- GRCh38 filtering  
+- Extraction of REF/ALT, protein change  
+- Benign/pathogenic label mapping  
+- Result: ~812,000 SNVs retained  
+
+---
+
+## 🧹 2. Data Cleaning & Label Normalization
+
+Steps included:
+- Removal of conflicting / uncertain labels  
+- Normalization → `label_numeric` (0 = benign, 1 = pathogenic)  
+- Extraction of amino acid changes  
+- Parsing allele frequency fields  
+
+---
+
+## 🧬 3. Feature Engineering
+
+Generated the following ML features:
+
+| Feature | Description |
+|--------|-------------|
+| `blosum62_raw` | BLOSUM62 score (ref_aa → alt_aa) |
+| `hydropathy_diff` | Kyte-Doolittle difference |
+| `is_stop` | Stop-gain indicator |
+| `grantham` | Chemical distance between amino acids |
+| `allele_freq` | Derived AF |
+| `af_filled` | Imputed AF |
+| `log_af` | log10(AF + 1e-12) |
+
+Saved as: clinvar_features_engineered.csv
+
+
+---
+
+## 🤖 4. Machine Learning Models
+
+Models trained:
+- Logistic Regression (baseline)
+- Random Forest Classifier
+- XGBoost Classifier
+
+### Input features
+["blosum62_raw",
+"hydropathy_diff",
+"is_stop",
+"grantham",
+"af_filled",
+"log_af"]
+
+Generated:
+- ROC–AUC curves  
+- Precision–Recall curves  
+- Confusion matrices  
+- Feature importance (RF + XGB)  
+- SHAP beeswarm, bar, and dependence plots (RF + LR)
+
+---
+
+## 📊 5. SHAP Explainability
+
+SHAP used for Random Forest & Logistic Regression:
+- Beeswarm plot  
+- Mean |SHAP| importance  
+- Dependence plots for:
+  - blosum62_raw
+  - hydropathy_diff
+  - is_stop
+  - grantham
+  - af_filled
+  - log_af
+
+⚠️ Note: XGBoost model uses a base_score string `"[5E-1]"` causing TreeExplainer failure. SHAP is disabled for XGB in the Streamlit app.
+
+---
+
+## 🖥️ 6. Streamlit App Prototype
+
+`app.py` allows users to:
+
+- Input variant coordinates  
+- Optionally input biological features  
+- See:
+  - Model prediction  
+  - Probability  
+  - SHAP explanations  
+  - Feature importance fallback for XGBoost  
+
+Structure:
+Variant Input → Feature Override (optional) → Model Prediction → SHAP/Importance
+
+---
+
+# 📁 Repository Structure
+variant-effect-prediction/
 │
-├── raw/
-│   └── variant_summary.txt.gz          ← Original ClinVar data
+├── data/
+│ ├── raw/
+│ │ └── variant_summary.txt.gz
+│ └── processed/
+│ └── clinvar_features_engineered.csv
 │
-├── processed/
-│   ├── clinvar_subset_20000.csv        ← Clean subset (benign/pathogenic)
-│   ├── clinvar_features_stage2_full.csv← Feature-engineered dataset
-│   └── clinvar_ml_ready.csv            ← Final ML-ready data
+├── results/
+│ ├── logisticregression.pkl
+│ ├── randomforest.pkl
+│ ├── xgboost.pkl
+│ ├── scaler.pkl
+│ ├── imputer.pkl
+│ └── shap_outputs/
 │
-└── notebooks/
-    ├── week2_prepare_subset.ipynb
-    ├── week3_feature_engineering.ipynb
-    └── week4_ml_baseline.ipynb
-
+├── notebooks/
+│ ├── 01_data_cleaning.ipynb
+│ ├── 02_feature_engineering.ipynb
+│ ├── 03_ml_training.ipynb
+│ └── 04_shap_analysis.ipynb
+│
+├── app.py
+└── README.md
 
 ---
 
 <p align="center">
-  <i>Generated and maintained as part of the MyGenome Bioinformatics Internship — Week 1</i>
+  <i>Developed during the MyGenome Bioinformatics Internship.</i><br>
+  <b>Supervised Machine Learning • Variant Interpretation • Bioinformatics</b>
 </p>
-
-
