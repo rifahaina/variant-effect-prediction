@@ -14,8 +14,8 @@ sns.set(style="whitegrid")
 
 # ---------------- Config ----------------
 st.set_page_config(page_title="AI VARIANT PREDICTOR", layout="wide")
-MODEL_POSIX = Path("/mnt/c/Users/MYG-D02/variant-effect-prediction/results/xgboost.pkl")
-MODEL_WIN   = Path(r"C:\Users\MYG-D02\variant-effect-prediction\results\xgboost.pkl")
+MODEL_POSIX = Path("/mnt/c/Users/MYG-D02/variant-effect-prediction/results/randomforest.pkl")
+MODEL_WIN   = Path(r"C:\Users\MYG-D02\variant-effect-prediction\results\randomforest.pkl")
 # uploaded CSV path (local)
 CSV_UPLOADED = Path("/mnt/data/clinvar_features_engineered.csv")
 CSV_POSIX   = Path("/mnt/c/Users/MYG-D02/variant-effect-prediction/data/processed/clinvar_features_engineered.csv")
@@ -235,5 +235,6 @@ st.markdown(
     **Caveat**: For research use only — not validated for clinical or diagnostic decisions.
     """)
 )
+
 
 
